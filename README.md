@@ -32,13 +32,13 @@ It demonstrates tunneling over the ICMP protocol (commonly used by ping).
 
 ### 📥 Installer ( Recommended )
 
-+ 1 - Just run this command to download and start :
+1. Just run this command to download and start :
 
 ```bash
 bash <(curl -Ls https://raw.githubusercontent.com/Qteam-official/ICMPTunnel/main/install.sh)
 ```
 
-+ 2 - Then type
+2. Then type
 ```bash
 q-icmp
 ```
@@ -72,12 +72,110 @@ q-icmp
 
 > **Note:** The binary file must be named exactly `ICMPTunnel` and be in the same directory as `install.sh` during installation.
 
+### 🚢 Install With Docker Compose
+
+1. **Install Docker** using the official installation script:
+
+```bash
+curl -fsSL https://get.docker.com | sh
+```
+
+2. Make a new working directory and download the latest `Dockerfile`:
+
+```bash
+mkdir ICMPTunnel && cd ICMPTunnel
+curl --output Dockerfile "https://raw.githubusercontent.com/sepehrmoh81/ICMPTunnel/main/docker/Dockerfile"
+```
+
+3. Create the proper docker compose configuration.
+
+- Open `docker-compose.yml` in your favorite editor (e.g. nano):
+
+```bash
+nano docker-compose.yml
+```
+
+- Copy&Paste the proper configuration (server/client) and save. (`ctrl + x`, `y` and `enter` for nano)
+
+#### Server Mode:
+```yaml
+services:
+  icmptunnel-server:
+    build: .
+    container_name: icmptunnel-server
+    restart: unless-stopped
+    network_mode: host
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    command: ["/usr/local/bin/ICMPTunnel", "-type", "server"]
+    healthcheck:
+      test: ["CMD", "pgrep", "-x", "ICMPTunnel"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+```
+
+#### Client Mode:
+```yaml
+services:
+  icmptunnel-client:
+    build: .
+    container_name: icmptunnel-client
+    restart: unless-stopped
+    network_mode: host
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    ports:
+      - "1010:1010"
+    environment:
+      - SERVER_IP=${SERVER_IP:-127.0.0.1}
+    command: ["/usr/local/bin/ICMPTunnel", "-type", "client", "-l", ":1010", "-s", "${SERVER_IP:-127.0.0.1}", "-sock5", "1"]
+    healthcheck:
+      test: ["CMD", "pgrep", "-x", "ICMPTunnel"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+```
+
+4. **⚠️CLIENT MODE ONLY:** Create a `.env` file to store server IP:
+
+- Open `.env` in your favorite editor (e.g. nano):
+
+```bash
+nano .env
+```
+
+- Copy&Paste the following, replace 127.0.0.1 with your **SERVER IP** and save. (`ctrl + x`, `y` and `enter` for nano)
+
+```shell
+# ICMPTunnel Client Configuration
+# Set the server IP address where the ICMPTunnel server is running
+SERVER_IP=127.0.0.1
+```
+
+5. **Run** ICMPTunnel container:
+
+```bash
+docker compose up -d
+```
+
+6. **Check** the logs:
+
+```bash
+docker compose logs
+```
 
 ---
 
 ## **🔐 Requirements 👇🏻**
 
-# ✅ Supported Platforms ( linux/amd64 ) :
+### ✅ Supported Platforms ( linux/amd64 ) :
   + 🐧 Ubuntu 18.04, 20.04, 22.04 and newer
   + 🐧 Debian 10, 11, 12+
   + 🐧 Kali Linux
@@ -88,15 +186,15 @@ q-icmp
   + 🐧 openSUSE
   + 🐧 Pop!_OS, Zorin OS, and most other modern distros
 
-# ⚠️ Not supported on:
+### ⚠️ Not supported on:
   + ❌ 32-bit Linux systems (i386)
   + ❌ ARM devices (like Raspberry Pi)
   + ❌ macOS or Windows
   + ℹ️ Support for other architectures (e.g. arm64, arm, windows) may be added in future releases.
 
-# Ensure ICMP (ping) is allowed on both sides (no firewall blocks)
-# Root is NOT required in most modern systems
-# No ports need to be opened manually — it works via ICMP!
+### Ensure ICMP (ping) is allowed on both sides (no firewall blocks)
+### Root is NOT required in most modern systems
+### No ports need to be opened manually — it works via ICMP!
 
 ---
 
