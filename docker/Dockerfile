@@ -1,7 +1,7 @@
+FROM debian:bookworm-slim
+
 LABEL version="1.3.0"
 LABEL description="ICMPTunnel - Tunneling over ICMP protocol (commonly used by ping)"
-
-FROM debian:bookworm-slim
 
 # Install required packages
 RUN apt-get update && \
