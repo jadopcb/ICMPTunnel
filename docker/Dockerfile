@@ -6,8 +6,6 @@ RUN apt-get update && \
     curl \
     ca-certificates \
     bash \
-    jq \
-    file \
     procps && \
     rm -rf /var/lib/apt/lists/*
 
@@ -20,17 +18,28 @@ ENV INSTALL_PATH="/usr/local/bin/$BINARY_NAME"
 # Create working directory
 WORKDIR /app
 
-# Download and install ICMPTunnel binary
-RUN URL=$(curl -s $GITHUB_API | jq -r '.assets[] | select(.name | contains("ICMPTunnel")) | .browser_download_url') && \
-    if [ -z "$URL" ] || [ "$URL" = "null" ]; then \
-        URL=$(curl -s $GITHUB_API | grep -o '"browser_download_url": *"[^"]*"' | grep "$BINARY_NAME" | cut -d'"' -f4); \
+# Download and install ICMPTunnel binary based on architecture
+ARG TARGETARCH
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        ARCH="amd64"; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+        ARCH="arm64"; \
+    elif [ "$TARGETARCH" = "arm" ]; then \
+        ARCH="arm"; \
+    else \
+        ARCH="amd64"; \
     fi && \
+    TARGET="ICMPTunnel-linux-$ARCH" && \
+    URL=$(curl -s "$GITHUB_API" | grep browser_download_url | grep "$TARGET" | cut -d '"' -f 4) && \
     curl -L -o "$INSTALL_PATH" "$URL" && \
     chmod +x "$INSTALL_PATH"
 
-# Create entrypoint script
-RUN echo '#!/bin/bash' > /entrypoint.sh && \
-    echo 'exec "$@"' >> /entrypoint.sh && \
-    chmod +x /entrypoint.sh
+# Download GeoIP database
+RUN curl -L -o geoip-country.mmdb \
+    "https://raw.githubusercontent.com/Qteam-official/ICMPTunnel/main/geoip/geoip-country.mmdb"
 
-ENTRYPOINT ["/entrypoint.sh"]
+# Set proper permissions
+RUN chown -R root:root /app
+
+# Default command
+CMD ["/usr/local/bin/ICMPTunnel", "-config", "/app/config.json"]
