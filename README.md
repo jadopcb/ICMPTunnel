@@ -1,8 +1,8 @@
-<p style="text-align: center">
+<p align="center">
   <img src="assets/Q-TEAM.small.png" width="200" alt="Q-TEAM">
 </p>
 
-<p style="text-align: center">
+<p align="center">
   <a href="https://github.com/Qteam-official/ICMPTunnel/releases">
     <img src="https://img.shields.io/badge/Releases-v1.3.0-blue.svg" alt="Release">
   </a>
