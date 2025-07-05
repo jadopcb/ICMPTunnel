@@ -1,14 +1,14 @@
-<p align="center">
-  <img src="assets/Q-TEAM.png" width="200">
+<p style="text-align: center">
+  <img src="assets/Q-TEAM.small.png" width="200" alt="Q-TEAM">
 </p>
 
-<p align="center">
-  <a href="./releases">
-    <img src="https://img.shields.io/badge/RELEASES-v1.0.0-blue.svg" alt="Release">
+<p style="text-align: center">
+  <a href="https://github.com/Qteam-official/ICMPTunnel/releases">
+    <img src="https://img.shields.io/badge/Releases-v1.3.0-blue.svg" alt="Release">
   </a>
   &nbsp;&nbsp;&nbsp;
   <a href="https://github.com/Qteam-official/ICMPTunnel/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/LICENSE-Q T E A M-red.svg" alt="License">
+    <img src="https://img.shields.io/badge/License-Q T E A M-red.svg" alt="License">
   </a>
    &nbsp;&nbsp;&nbsp;
   <a href="https://t.me/Qteam_official">
@@ -28,24 +28,24 @@ It demonstrates tunneling over the ICMP protocol (commonly used by ping).
 
 ---
 
-## 🛠️ How to Use
+## 🛠️ Installation
 
-### 📥 Installer ( Recommended )
+### 📥 Installer (Recommended)
 
-1. Just run this command to download and start :
+1. Just run this command to download and start:
 
 ```bash
 bash <(curl -Ls https://raw.githubusercontent.com/Qteam-official/ICMPTunnel/main/install.sh)
 ```
 
-2. Then type
+2. You can manage the tunnel using the following command:
 ```bash
 q-icmp
 ```
 
 ### 📦 Offline Installation (Internet restrictions)
 
-If you want to install ICMPTunnel without downloading from GitHub (for example, in an offline environment), follow these steps:
+If you want to install ICMPTunnel without downloading from GitHub (e.g. in an offline environment), follow these steps:
 
 1. **Download the latest release binary** (`ICMPTunnel`) from the [Releases page](https://github.com/Qteam-official/ICMPTunnel/releases) using another computer with internet access.
 2. **Copy** both `install.sh` and the downloaded `ICMPTunnel` binary to your target (offline) Linux machine, placing them in the same directory.
@@ -80,14 +80,13 @@ q-icmp
 curl -fsSL https://get.docker.com | sh
 ```
 
-2. Make a new working directory and download the latest `Dockerfile`:
+2. **Make** a new working directory:
 
 ```bash
 mkdir ICMPTunnel && cd ICMPTunnel
-curl --output Dockerfile "https://raw.githubusercontent.com/sepehrmoh81/ICMPTunnel/main/docker/Dockerfile"
 ```
 
-3. Create the proper docker compose configuration.
+3. **Create** docker compose configuration file.
 
 - Open `docker-compose.yml` in your favorite editor (e.g. nano):
 
@@ -95,21 +94,21 @@ curl --output Dockerfile "https://raw.githubusercontent.com/sepehrmoh81/ICMPTunn
 nano docker-compose.yml
 ```
 
-- Copy&Paste the proper configuration (server/client) and save. (`ctrl + x`, `y` and `enter` for nano)
+- Copy&Paste the following and save. (`ctrl + x`, `y` and `enter` for nano)
 
-#### Server Mode:
 ```yaml
 services:
-  icmptunnel-server:
-    build: .
-    container_name: icmptunnel-server
+  icmptunnel:
+    image: thisispogger/icmptunnel:latest
+    container_name: icmptunnel
     restart: unless-stopped
     network_mode: host
     privileged: true
     cap_add:
       - NET_ADMIN
       - NET_RAW
-    command: ["/usr/local/bin/ICMPTunnel", "-type", "server"]
+    volumes:
+      - ./config.json:/app/config.json:ro
     healthcheck:
       test: ["CMD", "pgrep", "-x", "ICMPTunnel"]
       interval: 30s
@@ -118,69 +117,75 @@ services:
       start_period: 5s
 ```
 
-#### Client Mode:
-```yaml
-services:
-  icmptunnel-client:
-    build: .
-    container_name: icmptunnel-client
-    restart: unless-stopped
-    network_mode: host
-    privileged: true
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
-    ports:
-      - "1010:1010"
-    environment:
-      - SERVER_IP=${SERVER_IP:-127.0.0.1}
-    command: ["/usr/local/bin/ICMPTunnel", "-type", "client", "-l", ":1010", "-s", "${SERVER_IP:-127.0.0.1}", "-sock5", "1"]
-    healthcheck:
-      test: ["CMD", "pgrep", "-x", "ICMPTunnel"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
-```
+4. **Create** the proper ICMPTunnel configuration file:
 
-4. **⚠️CLIENT MODE ONLY:** Create a `.env` file to store server IP:
-
-- Open `.env` in your favorite editor (e.g. nano):
+- Open `config.json` in your favorite editor (e.g. nano):
 
 ```bash
-nano .env
+nano config.json
 ```
 
-- Copy&Paste the following, replace 127.0.0.1 with your **SERVER IP** and save. (`ctrl + x`, `y` and `enter` for nano)
-
-```shell
-# ICMPTunnel Client Configuration
-# Set the server IP address where the ICMPTunnel server is running
-SERVER_IP=127.0.0.1
+#### Server Configuration Example:
+```json
+{
+  "type": "server",
+  "listen_port_socks": "1010",
+  "server": "",
+  "timeout": 60,
+  "block_country": "IR",
+  "dns": "8.8.8.8",
+  "key": 1234
+}
 ```
 
-5. **Run** ICMPTunnel container:
+#### Client Configuration Example:
+```json
+{
+  "type": "client",
+  "listen_port_socks": "1010",
+  "server": "127.0.0.1",
+  "timeout": 60,
+  "block_country": "IR",
+  "dns": "8.8.8.8",
+  "key": 1234
+}
+```
+
+> Refer to [Configuration](#configuration) for more details
+
+5. **Run ICMPTunnel**:
 
 ```bash
 docker compose up -d
 ```
 
-6. **Check** the logs:
+---
 
-```bash
-docker compose logs
-```
+## Configuration
+
+Tunnel configuration is done via `config.json` using key/value pairs:
+
+| Key                 | Description                                                              | Accepted Values                      |
+|---------------------|--------------------------------------------------------------------------|--------------------------------------|
+| `type`              | Switch between server/client mode                                        | `"server"`/`"client"`                |
+| `listen_port_socks` | (Client mode only) SOCKS5 port to listen on                              | Min: 0, Max: 65535                   |
+| `server`            | (Client mode only) Server endpoint to connect to                         | Server IP (e.g. 127.0.0.1)           |
+| `timeout`           | Connection timeout in seconds                                            | Integer Value > 0                    |
+| `block_country`     | Used to block outgoing traffic to specific countries' IPs based on GeoIP | 2-Letter country codes (e.g. `"IR"`) |
+| `dns`               | Custom Upstream DNS server                                               | DNS over IP (e.g. `"8.8.8.8"`        |
+| `key`               | Private key for security purposes                                        | Integer Value                        |
+
+> ⚠️ **Note:** `key` should be the same on both server and client configurations. 
 
 ---
 
-
-# ✅ Supported Platforms:
+## ✅ Supported Platforms:
 
 + Linux (amd64, arm64, arm, 386)
 + Windows (amd64, 386)
 + macOS (darwin-amd64, darwin-arm64)
 
-# ✅ Tested on :
+## ✅ Tested on:
 
 + 🐧 Ubuntu 18.04, 20.04, 22.04+
 + 🐧 Debian 10/11/12+
@@ -197,7 +202,6 @@ docker compose logs
 ### No ports need to be opened manually — it works via ICMP!
 
 ---
-
 
 ## 🧱 Binary Distribution
 
