@@ -338,7 +338,7 @@ EOF
   "type": "client",
   "listen_port_socks": "1010",
   "server": "$SERVER_IP",
-  "timeout": 60,
+  "timeout": 5,
   "block_country": "IR",
   "dns":"8.8.8.8",
   "key": 20201204
@@ -371,7 +371,7 @@ EOF
   "type": "server",
   "listen_port_socks": "1010",
   "server": "",
-  "timeout": 60,
+  "timeout": 5,
   "block_country": "IR",
   "dns":"8.8.8.8",
   "key": 20201204
