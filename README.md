@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://github.com/Qteam-official/ICMPTunnel/releases">
-    <img src="https://img.shields.io/badge/Releases-v1.3.0-blue.svg" alt="Release">
+    <img src="https://img.shields.io/badge/Releases-v1.4.0-blue.svg" alt="Release">
   </a>
   &nbsp;&nbsp;&nbsp;
   <a href="https://github.com/Qteam-official/ICMPTunnel/blob/main/LICENSE">
