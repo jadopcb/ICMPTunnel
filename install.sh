@@ -339,9 +339,10 @@ EOF
   "listen_port_socks": "1010",
   "server": "$SERVER_IP",
   "timeout": 5,
-  "block_country": "IR",
+  "block_country": "",
   "dns":"8.8.8.8",
-  "key": 20201204
+  "key": 20201204,
+  "api_port" : "1080"
 }
 EOF
     cat <<EOF > "/etc/systemd/system/$SERVICE_CLIENT"
@@ -372,9 +373,10 @@ EOF
   "listen_port_socks": "1010",
   "server": "",
   "timeout": 5,
-  "block_country": "IR",
+  "block_country": "",
   "dns":"8.8.8.8",
-  "key": 20201204
+  "key": 20201204,
+  "api_port" : "1080"
 }
 EOF
     cat <<EOF > "/etc/systemd/system/$SERVICE_SERVER"
