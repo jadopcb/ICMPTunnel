@@ -4,19 +4,19 @@
 
 <p align="center">
   <a href="https://github.com/Qteam-official/ICMPTunnel/releases">
-    <img src="https://img.shields.io/badge/Releases-v1.4.0-blue.svg" alt="Release">
+    <img src="https://img.shields.io/badge/Releases-v1.4.0-blue?logo=github" alt="Release">
   </a>
   &nbsp;&nbsp;&nbsp;
-  <a href="https://github.com/Qteam-official/ICMPTunnel/releases">
-    <img src="https://img.shields.io/badge/Releases-v1.4.0-blue.svg" alt="Release">
+  <a href="#-install-with-docker-compose">
+    <img src="https://img.shields.io/badge/Docker-v1.4.0-blue?style=flat&logo=docker&logoColor=fff&color=2597ee" alt="Release">
+  </a>
+  &nbsp;&nbsp;&nbsp;
+  <a href="https://t.me/Qteam_official">
+    <img src="https://img.shields.io/badge/Telegram-Q_T_E_A_M-green?logo=telegram&logoColor=fff" alt="Telegram">
   </a>
   &nbsp;&nbsp;&nbsp;
   <a href="https://github.com/Qteam-official/ICMPTunnel/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-Q T E A M-red.svg" alt="License">
-  </a>
-   &nbsp;&nbsp;&nbsp;
-  <a href="https://t.me/Qteam_official">
-    <img src="https://img.shields.io/badge/Telegram-Q T E A M-green.svg" alt="Telegram">
+    <img src="https://img.shields.io/badge/©_License-Q T E A M-red.svg" alt="License">
   </a>
 </p>
 
