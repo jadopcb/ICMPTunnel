@@ -7,6 +7,10 @@
     <img src="https://img.shields.io/badge/Releases-v1.4.0-blue.svg" alt="Release">
   </a>
   &nbsp;&nbsp;&nbsp;
+  <a href="https://github.com/Qteam-official/ICMPTunnel/releases">
+    <img src="https://img.shields.io/badge/Releases-v1.4.0-blue.svg" alt="Release">
+  </a>
+  &nbsp;&nbsp;&nbsp;
   <a href="https://github.com/Qteam-official/ICMPTunnel/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-Q T E A M-red.svg" alt="License">
   </a>
@@ -131,10 +135,11 @@ nano config.json
   "type": "server",
   "listen_port_socks": "1010",
   "server": "",
-  "timeout": 60,
+  "timeout": 10,
   "block_country": "IR",
   "dns": "8.8.8.8",
-  "key": 1234
+  "key": 1234,
+  "api_port": "1080"
 }
 ```
 
@@ -144,10 +149,11 @@ nano config.json
   "type": "client",
   "listen_port_socks": "1010",
   "server": "127.0.0.1",
-  "timeout": 60,
+  "timeout": 10,
   "block_country": "IR",
   "dns": "8.8.8.8",
-  "key": 1234
+  "key": 1234,
+  "api_port": "1080"
 }
 ```
 
@@ -165,15 +171,16 @@ docker compose up -d
 
 Tunnel configuration is done via `config.json` using key/value pairs:
 
-| Key                 | Description                                                              | Accepted Values                      |
-|---------------------|--------------------------------------------------------------------------|--------------------------------------|
-| `type`              | Switch between server/client mode                                        | `"server"`/`"client"`                |
-| `listen_port_socks` | (Client mode only) SOCKS5 port to listen on                              | Min: 0, Max: 65535                   |
-| `server`            | (Client mode only) Server endpoint to connect to                         | Server IP (e.g. 127.0.0.1)           |
-| `timeout`           | Connection timeout in seconds                                            | Integer Value > 0                    |
-| `block_country`     | Used to block outgoing traffic to specific countries' IPs based on GeoIP | 2-Letter country codes (e.g. `"IR"`) |
-| `dns`               | Custom Upstream DNS server                                               | DNS over IP (e.g. `"8.8.8.8"`        |
-| `key`               | Private key for security purposes                                        | Integer Value                        |
+| Key                 | Description                                                              | Accepted Values                        |
+|---------------------|--------------------------------------------------------------------------|----------------------------------------|
+| `type`              | Switch between server/client mode                                        | `"server"`/`"client"`                  |
+| `listen_port_socks` | (Client mode only) SOCKS5 port to listen on                              | Unused Valid Port (Min: 0, Max: 65535) |
+| `server`            | (Client mode only) Server endpoint to connect to                         | Server IP (e.g. 127.0.0.1)             |
+| `timeout`           | Connection timeout in seconds                                            | Integer Value > 0                      |
+| `block_country`     | Used to block outgoing traffic to specific countries' IPs based on GeoIP | 2-Letter country codes (e.g. `"IR"`)   |
+| `dns`               | Custom Upstream DNS server                                               | DNS over IP (e.g. `"8.8.8.8"`          |
+| `key`               | Private key for security purposes                                        | Integer Value                          |
+| `api_port`          | API port to access usage data&monitoring                                 | Unused Valid Port (Min: 0, Max: 65535) |
 
 > ⚠️ **Note:** `key` should be the same on both server and client configurations. 
 
