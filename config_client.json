@@ -1,7 +1,7 @@
 {
   "type": "client",
   "listen_port_socks": "1010",
-  "server": "109.107.157.114",
+  "server": "0.0.0.0",
   "timeout": 10,
   "dns":"8.8.8.8",
   "key": 20201204,
