@@ -174,6 +174,7 @@ Tunnel configuration is done via `config.json` using key/value pairs:
 | `block_country`     | Used to block outgoing traffic to specific countries' IPs based on GeoIP | 2-Letter country codes (e.g. `"IR"`) |
 | `dns`               | Custom Upstream DNS server                                               | DNS over IP (e.g. `"8.8.8.8"`        |
 | `key`               | Private key for security purposes                                        | Integer Value                        |
+| `api_port`          | (Client and Server) port to listen api                                   | Min: 0, Max: 65535                   |
 
 > ⚠️ **Note:** `key` should be the same on both server and client configurations. 
 
