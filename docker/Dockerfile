@@ -1,6 +1,6 @@
 FROM debian:bookworm-slim
 
-LABEL version="1.3.0"
+LABEL version="1.4.0"
 LABEL description="ICMPTunnel - Tunneling over ICMP protocol (commonly used by ping)"
 
 # Install required packages
@@ -14,7 +14,7 @@ RUN apt-get update && \
 
 # Set environment variables
 ENV REPO="Qteam-official/ICMPTunnel"
-ENV RELEASE_ID="230106703"
+ENV RELEASE_ID="230910528"
 ENV GITHUB_API="https://api.github.com/repos/$REPO/releases/$RELEASE_ID"
 ENV BINARY_NAME="ICMPTunnel"
 ENV INSTALL_PATH="/usr/local/bin/$BINARY_NAME"

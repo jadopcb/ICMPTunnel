@@ -2,19 +2,17 @@
   <img src="assets/Q-TEAM.small.png" width="200" alt="Q-TEAM">
 </p>
 
-<p align="center">
-  <a href="https://github.com/Qteam-official/ICMPTunnel/releases">
-    <img src="https://img.shields.io/badge/Releases-v1.4.0-blue.svg" alt="Release">
-  </a>
+<div align="center">
+
+  [![Releases](https://img.shields.io/badge/Releases-v1.4.0-blue?logo=github)](https://github.com/Qteam-official/ICMPTunnel/releases)
   &nbsp;&nbsp;&nbsp;
-  <a href="https://github.com/Qteam-official/ICMPTunnel/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-Q T E A M-red.svg" alt="License">
-  </a>
-   &nbsp;&nbsp;&nbsp;
-  <a href="https://t.me/Qteam_official">
-    <img src="https://img.shields.io/badge/Telegram-Q T E A M-green.svg" alt="Telegram">
-  </a>
-</p>
+  [![Docker](https://img.shields.io/badge/Docker-v1.4.0-blue?style=flat&logo=docker&logoColor=fff&color=2597ee)](#-install-with-docker-compose)
+  &nbsp;&nbsp;&nbsp;
+  [![Telegram](https://img.shields.io/badge/Telegram-Q_T_E_A_M-green?logo=telegram&logoColor=fff)](https://t.me/Qteam_official)
+  &nbsp;&nbsp;&nbsp;
+  [![License](https://img.shields.io/badge/©_License-Q%20T%20E%20A%20M-red.svg)](https://github.com/Qteam-official/ICMPTunnel/blob/main/LICENSE)
+
+</div>
 
 
 
@@ -131,10 +129,11 @@ nano config.json
   "type": "server",
   "listen_port_socks": "1010",
   "server": "",
-  "timeout": 60,
+  "timeout": 10,
   "block_country": "IR",
   "dns": "8.8.8.8",
-  "key": 1234
+  "key": 1234,
+  "api_port": "1080"
 }
 ```
 
@@ -144,10 +143,11 @@ nano config.json
   "type": "client",
   "listen_port_socks": "1010",
   "server": "127.0.0.1",
-  "timeout": 60,
+  "timeout": 10,
   "block_country": "IR",
   "dns": "8.8.8.8",
-  "key": 1234
+  "key": 1234,
+  "api_port": "1080"
 }
 ```
 
@@ -161,22 +161,45 @@ docker compose up -d
 
 ---
 
-## Configuration
+## 🔧 Configuration
 
 Tunnel configuration is done via `config.json` using key/value pairs:
 
-| Key                 | Description                                                              | Accepted Values                      |
-|---------------------|--------------------------------------------------------------------------|--------------------------------------|
-| `type`              | Switch between server/client mode                                        | `"server"`/`"client"`                |
-| `listen_port_socks` | (Client mode only) SOCKS5 port to listen on                              | Min: 0, Max: 65535                   |
-| `server`            | (Client mode only) Server endpoint to connect to                         | Server IP (e.g. 127.0.0.1)           |
-| `timeout`           | Connection timeout in seconds                                            | Integer Value > 0                    |
-| `block_country`     | Used to block outgoing traffic to specific countries' IPs based on GeoIP | 2-Letter country codes (e.g. `"IR"`) |
-| `dns`               | Custom Upstream DNS server                                               | DNS over IP (e.g. `"8.8.8.8"`        |
-| `key`               | Private key for security purposes                                        | Integer Value                        |
-| `api_port`          | (Client and Server) port to listen api                                   | Min: 0, Max: 65535                   |
+| Key                 | Description                                                              | Accepted Values                        |
+|---------------------|--------------------------------------------------------------------------|----------------------------------------|
+| `type`              | Switch between server/client mode                                        | `"server"`/`"client"`                  |
+| `listen_port_socks` | (Client mode only) SOCKS5 port to listen on                              | Unused Valid Port (Min: 0, Max: 65535) |
+| `server`            | (Client mode only) Server endpoint to connect to                         | Server IP (e.g. 127.0.0.1)             |
+| `timeout`           | Connection timeout in seconds                                            | Integer Value > 0                      |
+| `block_country`     | Used to block outgoing traffic to specific countries' IPs based on GeoIP | 2-Letter country codes (e.g. `"IR"`)   |
+| `dns`               | Custom Upstream DNS server                                               | DNS over IP (e.g. `"8.8.8.8"`          |
+| `key`               | Private key for security purposes                                        | Integer Value                          |
+| `api_port`          | API port to access usage data&monitoring                                 | Unused Valid Port (Min: 0, Max: 65535) |
 
 > ⚠️ **Note:** `key` should be the same on both server and client configurations. 
+
+---
+
+## 📊 Statistics API
+
+You can access real-time system and traffic stats via this endpoint:
+> http://`your_ip`:`api_port`/stats?key=`key`
+
+- `your_ip`: Your server's public IP address (Or `localhost` in case of local access)
+- `api_port`: Configured in `config.json` (See [Configuration](#configuration))
+- `key`: Configured in `config.json` (See [Configuration](#configuration))
+
+#### Example:
+- IP = 192.168.1.100
+- api_port = 1080
+- key = 1234
+
+In this example, `http://192.168.1.100:1080/stats?key=1234` would return system and traffic stats.
+
+Try using curl command on localhost:
+```bash
+curl http://localhost:1080/stats?key=1234
+```
 
 ---
 
