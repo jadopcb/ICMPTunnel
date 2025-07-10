@@ -2,23 +2,17 @@
   <img src="assets/Q-TEAM.small.png" width="200" alt="Q-TEAM">
 </p>
 
-<p align="center">
-  <a href="https://github.com/Qteam-official/ICMPTunnel/releases">
-    <img src="https://img.shields.io/badge/Releases-v1.4.0-blue?logo=github" alt="Release">
-  </a>
+<div align="center">
+
+  [![Releases](https://img.shields.io/badge/Releases-v1.4.0-blue?logo=github)](https://github.com/Qteam-official/ICMPTunnel/releases)
   &nbsp;&nbsp;&nbsp;
-  <a href="#-install-with-docker-compose">
-    <img src="https://img.shields.io/badge/Docker-v1.4.0-blue?style=flat&logo=docker&logoColor=fff&color=2597ee" alt="Release">
-  </a>
+  [![Docker](https://img.shields.io/badge/Docker-v1.4.0-blue?style=flat&logo=docker&logoColor=fff&color=2597ee)](#-install-with-docker-compose)
   &nbsp;&nbsp;&nbsp;
-  <a href="https://t.me/Qteam_official">
-    <img src="https://img.shields.io/badge/Telegram-Q_T_E_A_M-green?logo=telegram&logoColor=fff" alt="Telegram">
-  </a>
+  [![Telegram](https://img.shields.io/badge/Telegram-Q_T_E_A_M-green?logo=telegram&logoColor=fff)](https://t.me/Qteam_official)
   &nbsp;&nbsp;&nbsp;
-  <a href="https://github.com/Qteam-official/ICMPTunnel/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/©_License-Q T E A M-red.svg" alt="License">
-  </a>
-</p>
+  [![License](https://img.shields.io/badge/©_License-Q%20T%20E%20A%20M-red.svg)](https://github.com/Qteam-official/ICMPTunnel/blob/main/LICENSE)
+
+</div>
 
 
 
@@ -167,7 +161,7 @@ docker compose up -d
 
 ---
 
-## Configuration
+## 🔧 Configuration
 
 Tunnel configuration is done via `config.json` using key/value pairs:
 
@@ -183,6 +177,29 @@ Tunnel configuration is done via `config.json` using key/value pairs:
 | `api_port`          | API port to access usage data&monitoring                                 | Unused Valid Port (Min: 0, Max: 65535) |
 
 > ⚠️ **Note:** `key` should be the same on both server and client configurations. 
+
+---
+
+## 📊 Statistics API
+
+You can access real-time system and traffic stats via this endpoint:
+> http://`your_ip`:`api_port`/stats?key=`key`
+
+- `your_ip`: Your server's public IP address (Or `localhost` in case of local access)
+- `api_port`: Configured in `config.json` (See [Configuration](#configuration))
+- `key`: Configured in `config.json` (See [Configuration](#configuration))
+
+#### Example:
+- IP = 192.168.1.100
+- api_port = 1080
+- key = 1234
+
+In this example, `http://192.168.1.100:1080/stats?key=1234` would return system and traffic stats.
+
+Try using curl command on localhost:
+```bash
+curl http://localhost:1080/stats?key=1234
+```
 
 ---
 
