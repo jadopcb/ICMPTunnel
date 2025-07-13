@@ -133,7 +133,9 @@ nano config.json
   "block_country": "IR",
   "dns": "8.8.8.8",
   "key": 1234,
-  "api_port": "1080"
+  "api_port": "1080",
+  "encrypt_data" : true,
+  "encrypt_data_key" : "1QaKxkkkal10203Ps90!@oO"
 }
 ```
 
@@ -147,7 +149,9 @@ nano config.json
   "block_country": "IR",
   "dns": "8.8.8.8",
   "key": 1234,
-  "api_port": "1080"
+  "api_port": "1080",
+  "encrypt_data" : true,
+  "encrypt_data_key" : "1QaKxkkkal10203Ps90!@oO"
 }
 ```
 
