@@ -5,5 +5,7 @@
   "timeout": 10,
   "dns":"8.8.8.8",
   "key": 20201204,
-  "api_port" : "1080"
+  "api_port" : "1080",
+  "encrypt_data" : true,
+  "encrypt_data_key" : "1QaKxkkkal10203Ps90!@oO"
 }
