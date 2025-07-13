@@ -1,6 +1,6 @@
 {
   "type": "server",
-  "timeout": 10,
+  "timeout": 20,
   "block_country": "IR",
   "dns":"8.8.8.8",
   "key": 20201204,
